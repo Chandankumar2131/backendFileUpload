@@ -1,28 +1,30 @@
-//  server initiation
+// app create
 const express = require('express')
 const app = express();
 
-// importing PORT from the env file
+//PPOT find out
 require('dotenv').config();
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT||4000
 
-// using middleware
+// middleware add
 app.use(express.json());
+const fileupload = require('express-fileupload');
+app.use(fileupload());
 
-//  calling routes
-
-
-
-// activating server
-app.listen(PORT, () => {
-    console.log(`server started at ${PORT}`);
-
-})
-
-// database connection
+// db connection 
 require('./config/databse').dbConnection();
 
-// by defaoult api path
-app.get("/", (req, res) => {
-    res.send("<h1>Hello default server tis side ")
+// cloud connection
+const cloudinary = require('./config/cloudinary');
+cloudinary.cloudinaryConnect();
+
+
+// api route
+const Upload=  require('./routes/FileUpload');
+app.use('/api/v1/', Upload);
+
+// activate server
+app.listen(PORT,()=>{
+    console.log(`server started at${PORT}`);
+    
 })

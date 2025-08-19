@@ -11,6 +11,7 @@ exports. cloudinaryConnect = ()=>{
         })
 
     } catch (error) {
+        console.log(error);
         
     }
 }
