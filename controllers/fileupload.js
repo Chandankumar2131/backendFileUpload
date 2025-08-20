@@ -2,6 +2,25 @@ const File = require("../models/File");
 const fs = require('fs');
 const cloudinary = require('cloudinary').v2
 
+
+// helper: check file type
+function isFileTypeSupported(type, supportedTypes) {
+    return supportedTypes.includes(type);
+}
+
+// helper: upload to cloudinary
+async function uploadFileToCloudinary(file, folder, resourceType = "auto") {
+    const options = {
+        folder,
+        resource_type: resourceType, // "image", "video", or "auto"
+    };
+    return await cloudinary.uploader.upload(file.tempFilePath, options);
+}
+
+
+
+
+
 exports.localFileUpload = async (req, res) => {
     try {
         // fetch file
@@ -60,14 +79,16 @@ exports.localFileUpload = async (req, res) => {
 //>>>>>>    image uploading <<<<<<<<<<<<<<<<<<         
 
 
-function isFileTypeSupported(type, supportedTypes) {
-    return supportedTypes.includes(type);
-}
+// function isFileTypeSupported(type, supportedTypes) {
+//     return supportedTypes.includes(type);
+// }
 
-async function uploadFileToCloudinary(file, folder) {
-    const options = { folder };
-    return await cloudinary.uploader.upload(file.tempFilePath, options);
-}
+// async function uploadFileToCloudinary(file, folder) {
+//     const options = { folder,
+//          resource_type: resourceType,
+//      };
+//     return await cloudinary.uploader.upload(file.tempFilePath,resourceType = "auto", options);
+// }
 
 // image upload handler
 exports.imageUpload = async (req, res) => {
@@ -125,19 +146,19 @@ exports.imageUpload = async (req, res) => {
 
 //>>>>>>>>>> vedio uploading
 
-function isFileTypeSupported(type, supportedTypes) {
-    return supportedTypes.includes(type)
-}
+// function isFileTypeSupported(type, supportedTypes) {
+//     return supportedTypes.includes(type)
+// }
 
-async function uploadFileToCloudinary(file, folder) {
-    const options = {
-        folder,
-        resource_type: "video",
-        quality: "auto",
-        fetch_format: "auto"
-    };
-    return await cloudinary.uploader.upload(file.tempFilePath, options);
-}
+// async function uploadFileToCloudinary(file, folder) {
+//     const options = {
+//         folder,
+//         resource_type: "video",
+//         quality: "auto",
+//         fetch_format: "auto"
+//     };
+//     return await cloudinary.uploader.upload(file.tempFilePath, options);
+// }
 
 exports.vedioUpload = async (req, res) => {
     try {
