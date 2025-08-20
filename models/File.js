@@ -10,7 +10,7 @@ const fileSchema = new mongoose.Schema({
     imageUrl: {
         type: String
     },
-    tages: {
+    tags: {
         type: String,
     },
     email: {
